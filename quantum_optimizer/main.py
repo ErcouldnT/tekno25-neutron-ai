@@ -1,4 +1,5 @@
-from qiskit_aer import Aer
+from qiskit_aer.primitives import Sampler as AerSampler
+# from qiskit_aer import Aer
 from qiskit_algorithms.utils import algorithm_globals
 
 from qiskit.algorithms.minimum_eigensolvers import QAOA
@@ -24,7 +25,9 @@ problem.minimize(
 
 # 4. QAOA kur
 optimizer = COBYLA()
-qaoa = QAOA(optimizer=optimizer, reps=1, quantum_instance=Aer.get_backend('qasm_simulator'))
+sampler = AerSampler()
+sampler.options.shots = 512
+qaoa = QAOA(optimizer=optimizer, sampler=sampler, reps=2)
 
 # 5. Çözümle
 meo = MinimumEigenOptimizer(qaoa)
@@ -36,3 +39,4 @@ print("bor (0=low, 1=high)     :", int(result.x[0]))
 print("temp (0=low, 1=high)    :", int(result.x[1]))
 print("neutron (0=low, 1=high) :", int(result.x[2]))
 print("Minimum cost (risk score):", result.fval)
+

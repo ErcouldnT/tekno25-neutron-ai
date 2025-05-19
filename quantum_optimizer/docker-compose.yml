@@ -1,0 +1,11 @@
+services:
+  quantum-optimizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quantum_optimizer
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: python main.py
+    
