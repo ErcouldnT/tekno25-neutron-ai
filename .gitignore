@@ -1,5 +1,6 @@
 .DS_Store
 uhilali_venv
+sensor_data.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
