@@ -7,7 +7,7 @@ from skimage.feature import graycomatrix, graycoprops
 model = YOLO("yolov8n.pt")
 
 # Görüntü yükleniyor
-img = cv2.imread("temiz_bor_çozeltisi.png")
+img = cv2.imread("images/temiz_bor_çozeltisi.png")
 
 # YOLO ile nesne tespiti
 results = model(img)
