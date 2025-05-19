@@ -1,3 +1,4 @@
+import json
 from qiskit_aer.primitives import Sampler as AerSampler
 # from qiskit_aer import Aer
 from qiskit_algorithms.utils import algorithm_globals
@@ -6,6 +7,10 @@ from qiskit.algorithms.minimum_eigensolvers import QAOA
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 from qiskit_optimization.problems import QuadraticProgram
 from qiskit.algorithms.optimizers import COBYLA
+
+# 0. Veriyi dosyadan al
+with open("data.json") as f:
+    data = json.load(f)
 
 # 1. Sabit seed
 algorithm_globals.random_seed = 42
@@ -17,10 +22,9 @@ problem.binary_var('temp')       # y: sıcaklık (0=düşük, 1=yüksek)
 problem.binary_var('neutron')    # z: nötron akısı (0=normal, 1=yüksek)
 
 # 3. Maliyet fonksiyonu (minimize edilecek)
-# Cost = 1*bor + 1.5*temp + 2*neutron + bor*neutron + temp*neutron
 problem.minimize(
-    linear=[1, 1.5,  2],
-    quadratic={('bor', 'neutron'): 1, ('temp', 'neutron'): 1}
+    linear=data["linear"],
+    quadratic={tuple(eval(k)): v for k, v in data["quadratic"].items()}
 )
 
 # 4. QAOA kur
@@ -39,4 +43,3 @@ print("bor (0=low, 1=high)     :", int(result.x[0]))
 print("temp (0=low, 1=high)    :", int(result.x[1]))
 print("neutron (0=low, 1=high) :", int(result.x[2]))
 print("Minimum cost (risk score):", result.fval)
-

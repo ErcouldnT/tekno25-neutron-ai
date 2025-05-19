@@ -1,0 +1,7 @@
+{
+  "linear": [1, 1.5, 2],
+  "quadratic": {
+    "['bor', 'neutron']": 1,
+    "['temp', 'neutron']": 1
+  }
+}
